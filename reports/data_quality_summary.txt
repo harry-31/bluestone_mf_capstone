@@ -1,0 +1,22 @@
+Mutual Fund Analytics - Data QUality Summary
+
+Dataset loaded:
+Loaded 10 csv files using pandas.
+
+Data checks performed:
+-> shape
+->Datatypes
+->First 5 records
+->Missing values
+
+only one anomaly found:
+12 missing values in yoy_growth_pct column.
+
+Explored fund master data and checked fund house, categories and risk levels.
+
+Validation AMFI codes.
+All 40 codes are available in the NAV history.
+
+Fetched live NAV data using MFAPI.
+
+Overall data quality is good.
