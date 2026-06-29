@@ -121,3 +121,25 @@ holdings.to_csv("data/processed/09_portfolio_holdings_cleaned.csv",index=False)
 print("portfolio holdiings after cleaning:",holdings.info())
 print("portfolio holdings cleaned succesfully!")
 
+#==================FUND MASTER CLEANING==================
+fund_master = pd.read_csv("data/raw/01_fund_master.csv")
+
+print("\nFund Master before cleaning:")
+print(fund_master.info())
+
+fund_master = fund_master.drop_duplicates()
+
+text_columns = fund_master.select_dtypes(include="object").columns
+for col in text_columns:
+    fund_master[col] = fund_master[col].str.strip()
+
+fund_master = fund_master.dropna(how="all")
+
+fund_master.to_csv(
+    "data/processed/01_fund_master_cleaned.csv",
+    index=False
+)
+
+print("\nFund Master after cleaning:")
+print(fund_master.info())
+print("Fund Master cleaned successfully!")
