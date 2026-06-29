@@ -143,3 +143,42 @@ fund_master.to_csv(
 print("\nFund Master after cleaning:")
 print(fund_master.info())
 print("Fund Master cleaned successfully!")
+
+#==================BENCHMARK INDICES CLEANING==================
+
+benchmark = pd.read_csv("data/raw/10_benchmark_indices.csv")
+
+print("\nBenchmark Indices before cleaning:")
+print(benchmark.info())
+
+# Convert date column to datetime
+benchmark["date"] = pd.to_datetime(benchmark["date"], errors="coerce")
+
+# Remove duplicates
+benchmark = benchmark.drop_duplicates()
+
+# Remove missing values
+benchmark = benchmark.dropna()
+
+# Strip text columns
+text_columns = benchmark.select_dtypes(include="object").columns
+for col in text_columns:
+    benchmark[col] = benchmark[col].str.strip()
+
+# Keep only valid closing values
+benchmark = benchmark[benchmark["close_value"] > 0]
+
+# Sort by index and date
+benchmark = benchmark.sort_values(
+    by=["index_name", "date"]
+).reset_index(drop=True)
+
+# Save cleaned dataset
+benchmark.to_csv(
+    "data/processed/10_benchmark_indices_cleaned.csv",
+    index=False
+)
+
+print("\nBenchmark Indices after cleaning:")
+print(benchmark.info())
+print("Benchmark indices cleaned successfully!")
